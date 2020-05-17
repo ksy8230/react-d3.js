@@ -13,21 +13,16 @@ function App() {
       .selectAll("circle")
       .data(data)
       .join(
-        enter => 
-          enter
-            .append("circle")
-            .attr("class", "my-circle")
-            .attr("r", value => value)
-            .attr("cx", value => value *2)
-            .attr("cy", value => value *2)
-            .attr("stroke", "red"),
-        update => 
-          update.attr("class", "my-circle-updated")
-            .attr("r", value => value)
-            .attr("cx", value => value *2)
-            .attr("cy", value => value *2),
+        enter => enter.append("circle").attr("class", "my-circle"),
+        update => update.attr("class", "my-circle-updated"),
         exit => exit.remove()
-      );
+      )
+      /*.join("circle")*/
+      .attr("r", value => value)
+      .attr("cx", value => value *2)
+      .attr("cy", value => value *2)
+      .attr("stroke", "red")
+        
   }, [data]);
 
   return (
