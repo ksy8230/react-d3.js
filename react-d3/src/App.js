@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const svg = select(svgRef.current);
     svg
-      .selectAll("rect")
+      .selectAll("circle")
       .data(data)
       .join(
         enter => enter.append("circle").attr("class", "my-circle"),
@@ -56,6 +56,8 @@ function App() {
       <div className="content">
         <svg ref={svgRef2}></svg>
       </div>
+
+      
     </>
   );
 }
