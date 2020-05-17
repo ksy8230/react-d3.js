@@ -1,7 +1,11 @@
 svg {
-  background: #ddd;
+  background: #eee;
   overflow: visible;
 }
 .content {
   margin-left: 20px;
+}
+
+.buttons {
+  margin-top: 50px;
 }
