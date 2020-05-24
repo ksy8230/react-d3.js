@@ -1,7 +1,26 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import './App.css';
 import {select, axisBottom, scaleLinear, axisLeft, scaleBand} from 'd3';
+import ResizeObserver from 'resize-observer-polyfill'; // ie, safari 
 
+const useResizeObserver = (ref) => {
+  const [dimensions, setDimensions] = useState(null);
+  useEffect(() => {
+    const observeTarget = ref.current;
+    const resizeObserver = new ResizeObserver((entries) => {
+      console.log(entries)
+      // set resized dimentions here
+      entries.forEach(entry => {
+        setDimensions(entry.contentRect)
+      })
+    });
+    resizeObserver.observe(observeTarget);
+    return () => {
+      resizeObserver.unobserve(observeTarget);
+    };
+  }, [ref]);
+  return dimensions;
+};
 
 function BarChartAddData() {
   const [data, setData] =  useState(
@@ -14,18 +33,23 @@ function BarChartAddData() {
     );
   const [customData, setCustomData] = useState('');
   const svgRef = useRef();
+  const wrapperRef = useRef();
+  const dimensions = useResizeObserver(wrapperRef);
 
   useEffect(() => {
     const svg = select(svgRef.current);
+    console.log(dimensions);
+
+    if (!dimensions) return;
 
     const xScale = scaleBand()
         .domain(data.map((value, index) => value.name)) 
-        .range([0, 500])
+        .range([0, dimensions.width])
         .padding(0.5);
 
     const yScale = scaleLinear()
         .domain([0, 150])
-        .range([300, 0]);
+        .range([dimensions.height, 0]);
 
     const colorScale = scaleLinear()
         .domain([55, 100, 200])
@@ -34,11 +58,11 @@ function BarChartAddData() {
     
     // create x-axis
     const xAxis = axisBottom(xScale).ticks(data.length).tickSizeOuter(0).tickPadding(10);
-    svg.select(".x-axis").style("transform", "translateY(300px").call(xAxis);
+    svg.select(".x-axis").style("transform", `translateY(${dimensions.height}px)`).call(xAxis);
     
     // create y-axis
     const yAxis = axisLeft(yScale);
-    svg.select(".y-axis").style("transform", "translateX(0px").call(yAxis);
+    svg.select(".y-axis").style("transform", "translateX(0px)").call(yAxis);
 
     //svg.selectAll("path").attr("stroke", "#ddd") // 전체 path 선택
     svg.select(".y-axis").select("path").attr("stroke", "transparent") // y축 path만 선택
@@ -53,7 +77,7 @@ function BarChartAddData() {
       .attr("fill", (value) => colorScale(value.rank))
       .style("transform", "scale(1, -1)")
       .attr("x", (value, index) => xScale(value.name))
-      .attr("y", -300)
+      .attr("y", -dimensions.height)
       .attr("width", xScale.bandwidth())
       .on("mouseenter", (value, index) => { // 마우스오버하면 데이터값이 보이기
         svg.selectAll(".tooltip")
@@ -72,10 +96,10 @@ function BarChartAddData() {
         svg.select(".tooltip").remove()
       })
       .transition()
-      .attr("height", value => 300 - yScale(value.rank))
+      .attr("height", value => dimensions.height - yScale(value.rank))
       
       console.log(data)
-  }, [data])
+  }, [data, dimensions])
 
   const onAddData = () => {
     const newData = {"name":"test", "rank": Number(customData)}
@@ -96,7 +120,7 @@ function BarChartAddData() {
     <>
 
       <h3>d3.js BarChart</h3>
-      <div className="content">
+      <div className="content" ref={wrapperRef} >
         <svg ref={svgRef}>
             <g className="x-axis" />
             <g className="y-axis" />
