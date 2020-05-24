@@ -1,6 +1,8 @@
 svg {
   background: #fff;
   overflow: visible;
+  width: 500px;
+  height: 300px;
 }
 .content {
   margin-left: 20px;
