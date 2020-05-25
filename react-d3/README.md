@@ -11,6 +11,7 @@
 - barchart 애니메이트, 높은 수치일수록 색상 변하기
 - chart에 마우스호버시 데이터 보이기
 - chart에 랜덤으로 데이터 추가하기 / 커스텀 인풋으로 데이터 추가하기
+- api를 이용해 타임라인 chart 만들기 / select 된 값으로 해당 타임라인 표기하기
 
 참고 url
 - https://www.youtube.com/watch?v=9uEmNgHzPhQ&t=641s
