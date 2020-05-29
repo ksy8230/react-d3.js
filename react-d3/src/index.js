@@ -8,11 +8,11 @@ import BreakingBad from './BreakingBad';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App />
-    <Axes /> */}
+    <App />
+    {/* <Axes />
     <BarChart />
-    <BarChartAddData />
-    <BreakingBad />
+    <BarChartAddData /> 
+    <BreakingBad /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
