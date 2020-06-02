@@ -6,6 +6,7 @@ import BarChart from './BarChart';
 import BarChartAddData from './BarChartAddData';
 import BreakingBad from './BreakingBad';
 import TreeApp from './TreeApp';
+import GeoApp from './GeoApp';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +15,8 @@ ReactDOM.render(
     {/* <BarChart /> */}
     {/* <BarChartAddData />  */}
     {/* <BreakingBad /> */}
-    <TreeApp />
+    {/* <TreeApp /> */}
+    <GeoApp />
   </React.StrictMode>,
   document.getElementById('root')
 );

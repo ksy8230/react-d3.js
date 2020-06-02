@@ -12,3 +12,11 @@ svg {
 .buttons {
   margin-top: 50px;
 }
+
+/*  geo  */
+
+svg .country:hover {
+  stroke: yellowgreen;
+  stroke-width: 1px;
+  cursor: pointer;
+}
